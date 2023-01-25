@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     private void validate(UserDto userDto) {
         if (userDto.getEmail() != null) {
-            if (userRepository.findAll().stream().toList().stream().anyMatch(x -> x.getEmail().equals(userDto.getEmail()))) {
+            if (userRepository.findAll().stream().anyMatch(x -> x.getEmail().equals(userDto.getEmail()))) {
                 throw new DuplicateEmailException("Duplicate email " + userDto.getEmail());
             }
         }
