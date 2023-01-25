@@ -10,6 +10,7 @@ public interface ItemRepository {
     Map<Long, Item> getItemMap();
 
     Item create(Long userId, Item item);
+
     Item getItemById(Long itemId);
 
     List<Item> findAll(Long userId);

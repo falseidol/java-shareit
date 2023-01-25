@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
-
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
@@ -39,7 +38,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto updateItem(Long userId, ItemDto itemDto, Long itemId){
+    public ItemDto updateItem(Long userId, ItemDto itemDto, Long itemId) {
         Item itemUpdate = itemRepository.getItemById(itemId);
         log.info("Обновление вещи");
         if (userId == null) {
