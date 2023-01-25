@@ -14,6 +14,7 @@ import ru.practicum.shareit.user.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,7 +48,7 @@ public class ItemServiceImpl implements ItemService {
         if (!userRepository.getUserMap().containsKey(userId)) {
             throw new UserNotFoundException("Такого пользователя нету");
         }
-        if (itemUpdate.getOwner() != null && itemUpdate.getOwner().getId() != userId) {
+        if (itemUpdate.getOwner() != null && !Objects.equals(itemUpdate.getOwner().getId(), userId)) {
             throw new UserNotFoundException("У пользователя нет вещей");
         }
         if (itemDto.getName() != null) {

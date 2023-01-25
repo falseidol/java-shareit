@@ -18,7 +18,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     private final Map<Long, User> userMap = new HashMap<>();
-    private static Long userId = 1L;
+    private  Long userId = 1L;
 
     @Override
     public User create(User user) {

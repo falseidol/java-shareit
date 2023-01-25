@@ -20,7 +20,7 @@ public class ErrorHandler {
         log.info("400 {}", e.getMessage());
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString(StandardCharsets.UTF_8));
+        return new ErrorResponse(out.toString());
     }
 
     @ExceptionHandler
@@ -29,7 +29,7 @@ public class ErrorHandler {
         log.info("409 {}", e.getMessage());
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString(StandardCharsets.UTF_8));
+        return new ErrorResponse(out.toString());
     }
 
     @ExceptionHandler
@@ -38,6 +38,6 @@ public class ErrorHandler {
         log.info("404 {}", e.getMessage());
         final ByteArrayOutputStream out = new ByteArrayOutputStream();
         e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString(StandardCharsets.UTF_8));
+        return new ErrorResponse(out.toString());
     }
 }
