@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
@@ -17,26 +14,20 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleThrowable(final Exception e) {
         log.info("400 {}", e.getMessage());
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString());
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleDuplicateEmailException(final DuplicateEmailException e) {
         log.info("409 {}", e.getMessage());
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString());
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleUserNotFoundException(final UserNotFoundException e) {
         log.info("404 {}", e.getMessage());
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        e.printStackTrace(new PrintStream(out));
-        return new ErrorResponse(out.toString());
+        return new ErrorResponse(e.getMessage());
     }
 }

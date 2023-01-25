@@ -18,7 +18,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     private final UserRepository userRepository;
     private final HashMap<Long, List<Item>> itemsByUserId = new HashMap<>();
     private final Map<Long, Item> itemMap = new HashMap<>();
-    private static Long itemId = 1L;
+    private Long itemId = 1L;
 
     @Override
     public Map<Long, Item> getItemMap() {
