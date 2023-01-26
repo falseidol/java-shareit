@@ -17,7 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
         return userMap;
     }
 
-    private final Map<Long, User> userMap = new HashMap<>();
+    private Map<Long, User> userMap = new HashMap<>();
     private  Long userId = 1L;
 
     @Override
