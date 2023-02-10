@@ -1,28 +1,19 @@
 package ru.practicum.shareit.user.dto;
 
-import ru.practicum.shareit.exception.ObjectNotFoundException;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.shareit.user.model.User;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserMapper {
     public static UserDto toUserDto(User user) {
-        if (user == null) {
-            throw new ObjectNotFoundException("object==null");
-        }
-        return UserDto.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email((user.getEmail()))
-                .build();
+        return new UserDto(user.getId(), user.getName(), user.getEmail());
     }
 
-    public static User fromUserDtoToUser(UserDto userDto) {
-        if (userDto == null) {
-            throw new ObjectNotFoundException("object==null");
-        }
-        return User.builder()
-                .id(userDto.getId())
-                .name(userDto.getName())
-                .email((userDto.getEmail()))
-                .build();
+    public static User mapToNewUser(UserDto userDto) {
+        User user = new User();
+        user.setEmail(userDto.getEmail());
+        user.setName(userDto.getName());
+        return user;
     }
 }

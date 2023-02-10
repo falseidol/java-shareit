@@ -1,25 +1,23 @@
 package ru.practicum.shareit.item.dto;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import ru.practicum.shareit.booking.dto.BookingDtoShort;
 import ru.practicum.shareit.item.model.Item;
 
-public final class ItemMapper {
+import java.util.List;
 
-    public static ItemDto toItemDto(Item item) {
-        return ItemDto.builder()
-                .id(item.getId())
-                .name(item.getName())
-                .description(item.getDescription())
-                .available(item.getAvailable())
-                .request(item.getRequest() != null ? item.getRequest() : null)
-                .build();
-    }
+@Mapper
+public interface ItemMapper {
 
-    public static Item fromItemDtoToItem(ItemDto itemDto) {
-        return Item.builder()
-                .name(itemDto.getName())
-                .description(itemDto.getDescription())
-                .available(itemDto.getAvailable())
-                .request(itemDto.getRequest() != null ? itemDto.getRequest() : null)
-                .build();
-    }
+    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
+
+    @Mapping(target = "owner", ignore = true)
+    ItemDto toDto(Item item);
+
+    Item fromDto(ItemDto itemDto);
+
+    @Mapping(target = "id", source = "item.id")
+    ItemDtoResponse toDtoResponse(Item item, BookingDtoShort nextBooking, BookingDtoShort lastBooking, List<CommentDto> comments);
 }
