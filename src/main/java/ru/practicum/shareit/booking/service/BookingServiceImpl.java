@@ -11,7 +11,6 @@ import ru.practicum.shareit.booking.enums.BookingStatus;
 import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
 import ru.practicum.shareit.exception.BadRequestException;
-import ru.practicum.shareit.exception.BebraException;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
 import ru.practicum.shareit.item.model.Item;
@@ -94,8 +93,10 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<BookingDto> getBookingsForDefaultUser(Long userId, String state) {
-        List<Booking> bookingList = new ArrayList<>();
+        List<Booking> bookingList;
         BookingStatus status;
+        final User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ObjectNotFoundException("Пользователь не существует!"));
         try {
             status = BookingStatus.valueOf(state.toUpperCase());
         } catch (IllegalArgumentException e) {

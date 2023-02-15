@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookingRepository extends JpaRepository<Booking, Long>, BookingRepositoryCustom {
+public interface BookingRepository extends JpaRepository<Booking, Long> {
     List<Booking> findBookingByBooker_IdOrderByIdDesc(Long userId);
 
     List<Booking> findBookingByBookerIdAndStartIsBeforeAndEndIsAfter(Long userId, LocalDateTime start, LocalDateTime end);

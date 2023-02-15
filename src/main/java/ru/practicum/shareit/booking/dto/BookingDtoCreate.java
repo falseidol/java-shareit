@@ -17,11 +17,9 @@ public class BookingDtoCreate {
     @NotNull(groups = {Create.class})
     @FutureOrPresent(groups = {Create.class})
     private LocalDateTime start;
-
     @NotNull(groups = {Create.class})
     @Future(groups = {Create.class})
     private LocalDateTime end;
-
     @NotNull(groups = {Create.class})
     private Long itemId;
 }

@@ -29,6 +29,7 @@ public class ErrorHandler {
         log.info("404 {}", e.getMessage());
         return new ErrorResponse(e.getMessage());
     }
+
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequestException(final BadRequestException e) {
