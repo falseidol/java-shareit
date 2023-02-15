@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {

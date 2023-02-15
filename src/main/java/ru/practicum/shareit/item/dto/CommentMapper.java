@@ -1,25 +1,55 @@
 package ru.practicum.shareit.item.dto;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.item.model.Comment;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
 
 import java.time.LocalDateTime;
 
-@Mapper
-public interface CommentMapper {
-    CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
+public final class CommentMapper {
+    public static CommentDto toDto(Comment comment) {
+        if (comment == null) {
+            return null;
+        }
 
-    @Mapping(target = "authorName", source = "author.name")
-    CommentDto toDto(Comment comment);
+        CommentDto.CommentDtoBuilder commentDto = CommentDto.builder();
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(target = "text", source = "commentDto.text")
-    @Mapping(target = "author", source = "user")
-    @Mapping(target = "item", source = "item")
-    @Mapping(target = "created", source = "created")
-    Comment fromDto(CommentDto commentDto, User user, Item item, LocalDateTime created);
+        commentDto.authorName(commentAuthorName(comment));
+        commentDto.id(comment.getId());
+        commentDto.text(comment.getText());
+
+        return commentDto.build();
+    }
+
+    public static Comment fromDto(CommentDto commentDto, User user, Item item, LocalDateTime created) {
+        if (commentDto == null && user == null && item == null && created == null) {
+            return null;
+        }
+
+        Comment.CommentBuilder comment = Comment.builder();
+
+        if (commentDto != null) {
+            comment.text(commentDto.getText());
+        }
+        comment.author(user);
+        comment.item(item);
+        comment.created(created);
+
+        return comment.build();
+    }
+
+    private static String commentAuthorName(Comment comment) {
+        if (comment == null) {
+            return null;
+        }
+        User author = comment.getAuthor();
+        if (author == null) {
+            return null;
+        }
+        String name = author.getName();
+        if (name == null) {
+            return null;
+        }
+        return name;
+    }
 }

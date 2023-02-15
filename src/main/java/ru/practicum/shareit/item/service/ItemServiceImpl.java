@@ -4,11 +4,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.practicum.shareit.booking.model.Booking;
-import ru.practicum.shareit.booking.enums.BookingStatus;
 import ru.practicum.shareit.booking.dto.BookingDtoShort;
 import ru.practicum.shareit.booking.dto.BookingMapper;
+import ru.practicum.shareit.booking.enums.BookingStatus;
+import ru.practicum.shareit.booking.model.Booking;
 import ru.practicum.shareit.booking.repository.BookingRepository;
+import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.exception.HeaderNotFoundException;
 import ru.practicum.shareit.exception.ObjectNotFoundException;
 import ru.practicum.shareit.exception.UserNotFoundException;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
@@ -41,11 +41,11 @@ public class ItemServiceImpl implements ItemService {
         if (userId == null) {
             throw new HeaderNotFoundException("Заголовок не найден");
         }
-        Item item = ItemMapper.INSTANCE.fromDto(itemDto);
+        Item item = ItemMapper.fromDto(itemDto);
         User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
         item.setOwner(user);
         itemRepository.save(item);
-        return ItemMapper.INSTANCE.toDto(item);
+        return ItemMapper.toDto(item);
     }
 
     @Transactional
@@ -75,7 +75,7 @@ public class ItemServiceImpl implements ItemService {
             itemUpdate.setDescription(itemDto.getDescription());
         }
         itemRepository.save(itemUpdate);
-        return ItemMapper.INSTANCE.toDto(itemUpdate);
+        return ItemMapper.toDto(itemUpdate);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto getItemById(Long userId, Long itemId) {
+    public ItemDtoResponse getItemById(Long userId, Long itemId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new ObjectNotFoundException("итем не найден"));
         log.info("Возвращаем вещь по ид");
@@ -102,23 +102,18 @@ public class ItemServiceImpl implements ItemService {
             itemDtoResponse.setLastBooking(null);
             itemDtoResponse.setNextBooking(null);
         }
-        return ItemMapper.INSTANCE.toDto(item);
+        return itemDtoResponse;
     }
 
     @Override
     public List<ItemDto> searchItem(String text) {
         if (text == null) {
             throw new ObjectNotFoundException("searchText is null");
+        } else if (text.isBlank()) {
+            return Collections.emptyList();
         }
-        List<Item> itemList = itemRepository.searchItemsByNameContainingIgnoreCaseAndDescriptionIgnoreCaseAndAvailableIsTrue(text);
-        return itemList.stream().map(ItemMapper.INSTANCE::toDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public ItemDto getById(Long id) {
-        Item item = itemRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Вещь не найдена"));
-        log.info("Вещь по ид");
-        return ItemMapper.INSTANCE.toDto(item);
+        List<Item> itemList = itemRepository.searchByText(text.toLowerCase());
+        return itemList.stream().map(ItemMapper::toDto).collect(Collectors.toList());
     }
 
     @Transactional
@@ -131,10 +126,10 @@ public class ItemServiceImpl implements ItemService {
         final Booking booking = bookingRepository.findFirstByItem_IdAndBooker_Id(itemId, userId)
                 .orElseThrow(() -> new ObjectNotFoundException("Бронирование отсутствует!"));
         if (!booking.getStatus().equals(BookingStatus.APPROVED) || booking.getEnd().isAfter(LocalDateTime.now()))
-            throw new RuntimeException("Нет прав оставлять комментарий!");
+            throw new BadRequestException("Нет прав оставлять комментарий!");
 
-        Comment comment = CommentMapper.INSTANCE.fromDto(commentDto, user, item, LocalDateTime.now());
-        return CommentMapper.INSTANCE.toDto(commentRepository.save(comment));
+        Comment comment = CommentMapper.fromDto(commentDto, user, item, LocalDateTime.now());
+        return CommentMapper.toDto(commentRepository.save(comment));
     }
 
     private static ItemDtoResponse addBookingsAndComments(Item item, List<Booking> bookings, List<Comment> comments) {
@@ -149,10 +144,10 @@ public class ItemServiceImpl implements ItemService {
                 .max(Comparator.comparing(Booking::getEnd));
         List<CommentDto> itemComments = comments.stream()
                 .filter(comment -> comment.getItem().getId().equals(item.getId()))
-                .map(CommentMapper.INSTANCE::toDto)
+                .map(CommentMapper::toDto)
                 .collect(Collectors.toList());
-        BookingDtoShort nextBookingShort = BookingMapper.INSTANCE.toDtoShort(nextBooking.orElse(null));
-        BookingDtoShort lastBookingShort = BookingMapper.INSTANCE.toDtoShort(lastBooking.orElse(null));
-        return ItemMapper.INSTANCE.toDtoResponse(item, nextBookingShort, lastBookingShort, itemComments);
+        BookingDtoShort nextBookingShort = BookingMapper.toDtoShort(nextBooking.orElse(null));
+        BookingDtoShort lastBookingShort = BookingMapper.toDtoShort(lastBooking.orElse(null));
+        return ItemMapper.toDtoResponse(item, nextBookingShort, lastBookingShort, itemComments);
     }
 }

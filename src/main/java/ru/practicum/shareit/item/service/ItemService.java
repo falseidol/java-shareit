@@ -14,11 +14,9 @@ public interface ItemService {
 
     Collection<ItemDtoResponse> findAll(Long userId);
 
-    ItemDto getItemById(Long userId, Long itemId);
+    ItemDtoResponse getItemById(Long userId, Long itemId);
 
     List<ItemDto> searchItem(String text);
-
-    ItemDto getById(Long id);
 
     CommentDto postComment(Long userId, Long itemId, CommentDto commentDto);
 }

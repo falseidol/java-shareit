@@ -1,23 +1,57 @@
 package ru.practicum.shareit.item.dto;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.booking.dto.BookingDtoShort;
 import ru.practicum.shareit.item.model.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@Mapper
-public interface ItemMapper {
+public class ItemMapper {
+    public static ItemDto toDto(Item item) {
+        if (item == null) {
+            return null;
+        }
+        ItemDto.ItemDtoBuilder itemDto = ItemDto.builder();
+        if (item.getId() != null) {
+            itemDto.id(item.getId());
+        }
+        itemDto.name(item.getName());
+        itemDto.description(item.getDescription());
+        itemDto.available(item.getAvailable());
+        return itemDto.build();
+    }
 
-    ItemMapper INSTANCE = Mappers.getMapper(ItemMapper.class);
+    public static Item fromDto(ItemDto itemDto) {
+        if (itemDto == null) {
+            return null;
+        }
+        Item.ItemBuilder item = Item.builder();
+        item.id(itemDto.getId());
+        item.name(itemDto.getName());
+        item.description(itemDto.getDescription());
+        item.available(itemDto.getAvailable());
+        item.owner(itemDto.getOwner());
 
-    @Mapping(target = "owner", ignore = true)
-    ItemDto toDto(Item item);
+        return item.build();
+    }
 
-    Item fromDto(ItemDto itemDto);
-
-    @Mapping(target = "id", source = "item.id")
-    ItemDtoResponse toDtoResponse(Item item, BookingDtoShort nextBooking, BookingDtoShort lastBooking, List<CommentDto> comments);
+    public static ItemDtoResponse toDtoResponse(Item item, BookingDtoShort nextBooking, BookingDtoShort lastBooking, List<CommentDto> comments) {
+        if (item == null && nextBooking == null && lastBooking == null && comments == null) {
+            return null;
+        }
+        ItemDtoResponse.ItemDtoResponseBuilder itemDtoResponse = ItemDtoResponse.builder();
+        if (item != null) {
+            itemDtoResponse.id(item.getId());
+            itemDtoResponse.name(item.getName());
+            itemDtoResponse.description(item.getDescription());
+            itemDtoResponse.available(item.getAvailable());
+            itemDtoResponse.owner(item.getOwner());
+        }
+        itemDtoResponse.nextBooking(nextBooking);
+        itemDtoResponse.lastBooking(lastBooking);
+        if (comments != null) {
+            itemDtoResponse.comments(new ArrayList<CommentDto>(comments));
+        }
+        return itemDtoResponse.build();
+    }
 }

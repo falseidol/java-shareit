@@ -1,16 +1,52 @@
 package ru.practicum.shareit.booking.dto;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 import ru.practicum.shareit.booking.model.Booking;
+import ru.practicum.shareit.user.model.User;
 
-@Mapper
-public interface BookingMapper {
-    BookingMapper INSTANCE = Mappers.getMapper(BookingMapper.class);
+public final class BookingMapper {
+    public static BookingDto toDtoResponse(Booking booking) {
+        if (booking == null) {
+            return null;
+        }
 
-    BookingDto toDtoResponse(Booking booking);
+        BookingDto.BookingDtoBuilder bookingDto = BookingDto.builder();
 
-    @Mapping(target = "bookerId", source = "booker.id")
-    BookingDtoShort toDtoShort(Booking booking);
+        bookingDto.id(booking.getId());
+        bookingDto.start(booking.getStart());
+        bookingDto.end(booking.getEnd());
+        bookingDto.item(booking.getItem());
+        bookingDto.booker(booking.getBooker());
+        bookingDto.status(booking.getStatus());
+
+        return bookingDto.build();
+    }
+
+    public static BookingDtoShort toDtoShort(Booking booking) {
+        if (booking == null) {
+            return null;
+        }
+
+        BookingDtoShort.BookingDtoShortBuilder bookingDtoShort = BookingDtoShort.builder();
+
+        bookingDtoShort.bookerId(bookingBookerId(booking));
+        bookingDtoShort.id(booking.getId());
+
+        return bookingDtoShort.build();
+    }
+
+    private static Long bookingBookerId(Booking booking) {
+        if (booking == null) {
+            return null;
+        }
+        User booker = booking.getBooker();
+        if (booker == null) {
+            return null;
+        }
+        Long id = booker.getId();
+        if (id == null) {
+            return null;
+        }
+        return id;
+    }
+
 }

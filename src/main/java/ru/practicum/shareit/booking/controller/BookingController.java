@@ -24,23 +24,28 @@ public class BookingController {
         return bookingService.addBooking(userId, bookingDtoCreate);
     }
 
-    @PatchMapping("{/bookingId}")
-    public BookingDto updateBooking(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long bookingId, @RequestParam boolean approved) {
+    @PatchMapping("/{bookingId}")
+    public BookingDto updateBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                    @PathVariable Long bookingId,
+                                    @RequestParam boolean approved) {
         return bookingService.updateBooking(userId, bookingId, approved);
     }
 
-    @GetMapping("{/bookingId}")
-    public BookingDto ownerGetBooking(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long bookingId) {
+    @GetMapping("/{bookingId}")
+    public BookingDto ownerGetBooking(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                      @PathVariable Long bookingId) {
         return bookingService.getBookingByBookingId(userId, bookingId);
     }
 
     @GetMapping
-    public List<BookingDto> getBookingsForDefaultUser(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestParam(defaultValue = "ALL", required = false) String state) {
+    public List<BookingDto> getBookingsForDefaultUser(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                                      @RequestParam(defaultValue = "ALL", required = false) String state) {
         return bookingService.getBookingsForDefaultUser(userId, state);
     }
 
     @GetMapping("/owner")
-    public List<BookingDto> getOwnersBookings(@RequestHeader("X-Sharer-User-Id") Long userId, @RequestParam(defaultValue = "ALL", required = false) String state) {
+    public List<BookingDto> getOwnersBookings(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                              @RequestParam(defaultValue = "ALL", required = false) String state) {
         return bookingService.findBookingsByOwner(userId, state);
     }
 }

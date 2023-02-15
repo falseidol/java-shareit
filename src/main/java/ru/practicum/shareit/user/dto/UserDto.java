@@ -8,8 +8,6 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class UserDto {
     private Long id;
     @NotNull(groups = {Create.class})
