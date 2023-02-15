@@ -85,7 +85,7 @@ public class BookingServiceImpl implements BookingService {
         Booking booking = bookingRepository.findById(bookingId)
                 .orElseThrow(() -> new ObjectNotFoundException("Аренда не найдена"));
 
-        if (booking.getBooker().getId() == userId || booking.getItem().getOwner().getId() == userId)
+        if (Objects.equals(booking.getBooker().getId(), userId) || Objects.equals(booking.getItem().getOwner().getId(), userId))
             return BookingMapper.toDtoResponse(booking);
         else
             throw new ObjectNotFoundException("Вы не являеетесь владельцем запроса");
