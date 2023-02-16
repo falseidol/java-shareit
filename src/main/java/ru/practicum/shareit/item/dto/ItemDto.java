@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Getter
 @Setter
+@Data
 @Builder
 public class ItemDto {
     private Long id;
