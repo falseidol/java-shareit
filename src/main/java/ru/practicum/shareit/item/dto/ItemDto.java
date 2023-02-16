@@ -7,7 +7,10 @@ import ru.practicum.shareit.user.model.User;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ItemDto {
     private Long id;
