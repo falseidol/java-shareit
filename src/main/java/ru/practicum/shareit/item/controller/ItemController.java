@@ -13,6 +13,8 @@ import ru.practicum.shareit.user.dto.Update;
 import java.util.Collection;
 import java.util.List;
 
+import static ru.practicum.shareit.booking.controller.BookingController.HEADER;
+
 /**
  * TODO Sprint add-controllers.
  */
@@ -23,18 +25,18 @@ public class ItemController {
     private final ItemService itemService;
 
     @PostMapping
-    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId, @Validated({Create.class}) @RequestBody ItemDto item) {
+    public ItemDto addItem(@RequestHeader(HEADER) Long userId, @Validated({Create.class}) @RequestBody ItemDto item) {
         return itemService.addItem(userId, item);
     }
 
     @PatchMapping("/{id}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId, @Validated({Update.class}) @RequestBody ItemDto itemDto,
+    public ItemDto updateItem(@RequestHeader(HEADER) Long userId, @Validated({Update.class}) @RequestBody ItemDto itemDto,
                               @PathVariable Long id) {
         return itemService.updateItem(userId, itemDto, id);
     }
 
     @GetMapping
-    public Collection<ItemDtoResponse> findAll(@RequestHeader("X-Sharer-User-Id") Long userid) {
+    public Collection<ItemDtoResponse> findAll(@RequestHeader(HEADER) Long userid) {
         return itemService.findAll(userid);
     }
 
@@ -44,12 +46,12 @@ public class ItemController {
     }
 
     @GetMapping("/{id}")
-    public ItemDtoResponse getItemByIdAndUserId(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long id) {
+    public ItemDtoResponse getItemByIdAndUserId(@RequestHeader(HEADER) Long userId, @PathVariable Long id) {
         return itemService.getItemById(userId, id);
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto postComment(@RequestHeader("X-Sharer-User-Id") Long userId, @PathVariable Long itemId,
+    public CommentDto postComment(@RequestHeader(HEADER) Long userId, @PathVariable Long itemId,
                                   @Validated({Create.class}) @RequestBody CommentDto commentDto) {
         return itemService.postComment(userId, itemId, commentDto);
     }

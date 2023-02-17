@@ -35,6 +35,11 @@ public class Comment {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Comment)) return false;
+        Comment comment = (Comment) o;
+        if (!text.equals(comment.getText())) return false;
+        if (!item.equals(comment.getItem())) return false;
+        if (!author.equals(comment.getAuthor())) return false;
+        if (!created.equals(comment.getCreated())) return false;
         return id != null && id.equals(((Comment) o).getId());
     }
 

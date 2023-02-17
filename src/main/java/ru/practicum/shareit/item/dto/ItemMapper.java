@@ -1,12 +1,15 @@
 package ru.practicum.shareit.item.dto;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDtoShort;
 import ru.practicum.shareit.item.model.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemMapper {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ItemMapper {
     public static ItemDto toDto(Item item) {
         if (item == null) {
             return null;

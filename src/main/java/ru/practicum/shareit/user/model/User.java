@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 
 @Entity
-@Table(name = "users",schema = "public")
+@Table(name = "users", schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,6 +27,9 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof User)) return false;
+        User user = (User) o;
+        if (!name.equals(user.name)) return false;
+        if (!email.equals(user.email)) return false;
         return id != null && id.equals(((User) o).getId());
     }
 
