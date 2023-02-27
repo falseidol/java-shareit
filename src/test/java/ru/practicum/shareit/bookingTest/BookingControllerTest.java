@@ -124,7 +124,7 @@ class BookingControllerTest {
 
     @SneakyThrows
     @Test
-    void getOwnersBookings() {
+    void getOwnersBookingsTest() {
         when(bookingService.getBookingByBookingId(anyLong(), anyLong()))
                 .thenReturn(bookingDto);
         mvc.perform(get("/bookings/1").header(HEADER, 1))
