@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import ru.practicum.shareit.booking.dto.BookingDtoShort;
 import ru.practicum.shareit.item.model.Item;
+import ru.practicum.shareit.request.model.Request;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public final class ItemMapper {
             return null;
         }
         ItemDto.ItemDtoBuilder itemDto = ItemDto.builder();
+        itemDto.requestId(itemRequestId(item));
         if (item.getId() != null) {
             itemDto.id(item.getId());
         }
@@ -34,7 +36,6 @@ public final class ItemMapper {
         item.description(itemDto.getDescription());
         item.available(itemDto.getAvailable());
         item.owner(itemDto.getOwner());
-
         return item.build();
     }
 
@@ -56,5 +57,20 @@ public final class ItemMapper {
             itemDtoResponse.comments(new ArrayList<CommentDto>(comments));
         }
         return itemDtoResponse.build();
+    }
+
+    private static Long itemRequestId(Item item) {
+        if (item == null) {
+            return null;
+        }
+        Request request = item.getRequest();
+        if (request == null) {
+            return null;
+        }
+        Long id = request.getId();
+        if (id == null) {
+            return null;
+        }
+        return id;
     }
 }

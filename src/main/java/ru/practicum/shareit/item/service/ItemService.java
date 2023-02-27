@@ -12,11 +12,11 @@ public interface ItemService {
 
     ItemDto updateItem(Long userId, ItemDto itemDto, Long id);
 
-    Collection<ItemDtoResponse> findAll(Long userId);
+    Collection<ItemDtoResponse> findAll(Long userId,Integer from,Integer size);
 
     ItemDtoResponse getItemById(Long userId, Long itemId);
 
-    List<ItemDto> searchItem(String text);
+    List<ItemDto> searchItem(Integer from,Integer size,String text);
 
     CommentDto postComment(Long userId, Long itemId, CommentDto commentDto);
 }

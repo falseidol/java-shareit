@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoCreate;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.user.dto.Create;
+import ru.practicum.shareit.appservice.Create;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 /**
@@ -40,13 +42,17 @@ public class BookingController {
 
     @GetMapping
     public List<BookingDto> getBookingsForDefaultUser(@RequestHeader(HEADER) Long userId,
-                                                      @RequestParam(defaultValue = "ALL", required = false) String state) {
-        return bookingService.getBookingsForDefaultUser(userId, state);
+                                                      @RequestParam(defaultValue = "ALL", required = false) String state,
+                                                      @PositiveOrZero @RequestParam(defaultValue = "0", required = false) Integer from,
+                                                      @Positive @RequestParam(defaultValue = "10", required = false) Integer size) {
+        return bookingService.getBookingsForDefaultUser(userId, state,from,size);
     }
 
     @GetMapping("/owner")
     public List<BookingDto> getOwnersBookings(@RequestHeader(HEADER) Long userId,
-                                              @RequestParam(defaultValue = "ALL", required = false) String state) {
-        return bookingService.findBookingsByOwner(userId, state);
+                                              @RequestParam(defaultValue = "ALL", required = false) String state,
+                                              @PositiveOrZero @RequestParam(defaultValue = "0", required = false) Integer from,
+                                              @Positive @RequestParam(defaultValue = "10", required = false) Integer size) {
+        return bookingService.findBookingsByOwner(userId, state,from,size);
     }
 }
