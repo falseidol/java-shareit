@@ -73,10 +73,9 @@ public class RequestServiceImpl implements RequestService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Юзер не найден"));
         List<Request> requestList = requestRepository
-                .findAllByUser_IdNotIn(Collections.singletonList(userId)
-                        , new MyPageRequest(from, size, Sort.by(Sort.Direction.DESC, "created")));
-        List<Long> IdList = requestList.stream().map(Request::getId).collect(Collectors.toList());
-        List<Item> itemList = itemRepository.findAllByRequestIdIn(IdList);
+                .findAllByUser_IdNotIn(Collections.singletonList(userId), new MyPageRequest(from, size, Sort.by(Sort.Direction.DESC, "created")));
+        List<Long> idList = requestList.stream().map(Request::getId).collect(Collectors.toList());
+        List<Item> itemList = itemRepository.findAllByRequestIdIn(idList);
         return getItemRequestDtosWithItems(requestList, itemList);
     }
 
