@@ -33,23 +33,4 @@ public class Item {
     @ManyToOne
     @JoinColumn(name = "request_id")
     private Request request;
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
-
-        Item item = (Item) o;
-
-        if (!name.equals(item.name)) return false;
-        if (!description.equals(item.description)) return false;
-        if (!available.equals(item.available)) return false;
-        if (!owner.equals(item.owner)) return false;
-        return id != null && id.equals(((Item) o).getId());
-    }
 }

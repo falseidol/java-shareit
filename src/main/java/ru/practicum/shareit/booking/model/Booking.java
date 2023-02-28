@@ -31,24 +31,4 @@ public class Booking {
     private User booker;
     @Enumerated(EnumType.STRING)
     private BookingStatus status;
-
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Booking)) return false;
-
-        Booking booking = (Booking) o;
-
-        if (!start.equals(booking.start)) return false;
-        if (!end.equals(booking.end)) return false;
-        if (!item.equals(booking.item)) return false;
-        if (!booker.equals(booking.booker)) return false;
-        return id != null && id.equals(((Booking) o).getId());
-    }
 }

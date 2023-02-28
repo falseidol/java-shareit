@@ -231,6 +231,7 @@ class BookingServiceImplTest {
                 .thenReturn(Optional.of(user));
         when(itemRepository.findById(userId))
                 .thenReturn(Optional.of(item));
+
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class,
                 () -> bookingService.addBooking(userId, bookingDtoCreate));
         assertThat(exception.getMessage(), equalTo("Нет подходящих для бронирования предметов!"));

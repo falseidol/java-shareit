@@ -10,9 +10,4 @@ public class MyPageRequest extends PageRequest {
         super(from / size, size, sort);
         this.from = from;
     }
-
-    @Override
-    public long getOffset() {
-        return from;
-    }
 }

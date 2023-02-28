@@ -5,7 +5,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.appservice.Create;
 import ru.practicum.shareit.appservice.Update;
-import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.item.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.item.dto.ItemDtoResponse;
@@ -44,9 +43,6 @@ public class ItemController {
     public Collection<ItemDtoResponse> findAll(@RequestHeader(HEADER) Long userId,
                                                @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
                                                @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
-        if (size == 0) {
-            throw new BadRequestException("size == 0");
-        }
         return itemService.findAll(userId, from, size);
     }
 
@@ -54,9 +50,6 @@ public class ItemController {
     public List<ItemDto> searchItem(@RequestParam String text,
                                     @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
                                     @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
-        if (size == 0) {
-            throw new BadRequestException("size == 0");
-        }
         return itemService.searchItem(from, size, text);
     }
 
