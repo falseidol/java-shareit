@@ -5,10 +5,11 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ErrorResponseTest {
-String message = "msg";
-ErrorResponse errorResponse = new ErrorResponse(message);
+    String message = "msg";
+    ErrorResponse errorResponse = new ErrorResponse(message);
+
     @Test
     void getErrorTest() {
-        assertEquals(errorResponse.getError(),(message));
+        assertEquals(errorResponse.getError(), (message));
     }
 }
