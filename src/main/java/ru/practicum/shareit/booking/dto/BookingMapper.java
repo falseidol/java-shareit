@@ -37,7 +37,7 @@ public final class BookingMapper {
         return bookingDtoShort.build();
     }
 
-    private static Long bookingBookerId(Booking booking) {
+    public static Long bookingBookerId(Booking booking) {
         if (booking == null) {
             return null;
         }

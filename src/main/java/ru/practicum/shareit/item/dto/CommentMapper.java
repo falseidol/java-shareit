@@ -41,7 +41,7 @@ public final class CommentMapper {
         return comment.build();
     }
 
-    private static String commentAuthorName(Comment comment) {
+    public static String commentAuthorName(Comment comment) {
         if (comment == null) {
             return null;
         }

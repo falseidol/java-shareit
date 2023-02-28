@@ -59,7 +59,7 @@ public final class ItemMapper {
         return itemDtoResponse.build();
     }
 
-    private static Long itemRequestId(Item item) {
+    public static Long itemRequestId(Item item) {
         if (item == null) {
             return null;
         }

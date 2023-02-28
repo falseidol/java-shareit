@@ -2,6 +2,7 @@ package ru.practicum.shareit.request.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -72,8 +73,9 @@ public class RequestServiceImpl implements RequestService {
         log.info("Возвращаем список с размером");
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("Юзер не найден"));
+        Pageable pageRequest = MyPageRequest.makePageRequest(from, size, Sort.by(Sort.Direction.DESC, "created"));
         List<Request> requestList = requestRepository
-                .findAllByUser_IdNotIn(Collections.singletonList(userId), new MyPageRequest(from, size, Sort.by(Sort.Direction.DESC, "created")));
+                .findAllByUser_IdNotIn(Collections.singletonList(userId),pageRequest);
         List<Long> idList = requestList.stream().map(Request::getId).collect(Collectors.toList());
         List<Item> itemList = itemRepository.findAllByRequestIdIn(idList);
         return getItemRequestDtosWithItems(requestList, itemList);

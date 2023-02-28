@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.shareit.appservice.Create;
-import ru.practicum.shareit.exception.BadRequestException;
 import ru.practicum.shareit.request.dto.RequestDto;
 import ru.practicum.shareit.request.service.RequestService;
 
@@ -33,9 +32,6 @@ public class RequestController {
     public List<RequestDto> findAllFromSize(@RequestHeader(HEADER) Long userId,
                                             @PositiveOrZero @RequestParam(required = false, defaultValue = "0") Integer from,
                                             @Positive @RequestParam(required = false, defaultValue = "10") Integer size) {
-        if (size == 0) {
-            throw new BadRequestException("size == 0");
-        }
         return requestService.findAllFromSize(userId, from, size);
     }
 

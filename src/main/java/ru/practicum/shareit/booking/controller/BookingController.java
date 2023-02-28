@@ -3,10 +3,10 @@ package ru.practicum.shareit.booking.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.appservice.Create;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.BookingDtoCreate;
 import ru.practicum.shareit.booking.service.BookingService;
-import ru.practicum.shareit.appservice.Create;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -45,7 +45,7 @@ public class BookingController {
                                                       @RequestParam(defaultValue = "ALL", required = false) String state,
                                                       @PositiveOrZero @RequestParam(defaultValue = "0", required = false) Integer from,
                                                       @Positive @RequestParam(defaultValue = "10", required = false) Integer size) {
-        return bookingService.getBookingsForDefaultUser(userId, state,from,size);
+        return bookingService.getBookingsForDefaultUser(userId, state, from, size);
     }
 
     @GetMapping("/owner")
@@ -53,6 +53,6 @@ public class BookingController {
                                               @RequestParam(defaultValue = "ALL", required = false) String state,
                                               @PositiveOrZero @RequestParam(defaultValue = "0", required = false) Integer from,
                                               @Positive @RequestParam(defaultValue = "10", required = false) Integer size) {
-        return bookingService.findBookingsByOwner(userId, state,from,size);
+        return bookingService.findBookingsByOwner(userId, state, from, size);
     }
 }
