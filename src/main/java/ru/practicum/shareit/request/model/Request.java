@@ -5,7 +5,6 @@ import ru.practicum.shareit.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * TODO Sprint add-item-requests.
@@ -30,20 +29,14 @@ public class Request {
     private LocalDateTime created;
 
     @Override
-    public int hashCode() {
-        return getId().hashCode();
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Request)) return false;
+        return id != null && id.equals(((Request) o).getId());
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Request that = (Request) o;
-
-        if (!Objects.equals(id, that.id)) return false;
-        if (!description.equals(that.description)) return false;
-        if (!user.equals(that.user)) return false;
-        return id != null && id.equals(((Request) o).getId());
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
