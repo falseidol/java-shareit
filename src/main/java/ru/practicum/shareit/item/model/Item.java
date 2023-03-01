@@ -9,14 +9,14 @@ import javax.persistence.*;
 /**
  * TODO Sprint add-controllers.
  */
-@Entity
-@Table(name = "items", schema = "public")
 @Getter
 @Setter
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "items", schema = "public")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
