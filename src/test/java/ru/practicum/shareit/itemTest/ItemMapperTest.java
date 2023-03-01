@@ -65,6 +65,19 @@ public class ItemMapperTest {
     }
 
     @Test
+    void toDtoResponseItemNull2() {
+        User user = new User(1L, "bebr", "abobovich");
+        nextBooking = new BookingDtoShort(1L, user.getId());
+        lastBooking = new BookingDtoShort(1L, user.getId());
+        Item item = null;
+        ItemDtoResponse itemDtoResponse = ItemMapper.toDtoResponse(item, nextBooking, lastBooking, comments);
+        assertNull(itemDtoResponse.getId());
+        assertNull(itemDtoResponse.getName());
+        assertNull(itemDtoResponse.getDescription());
+        assertNull(itemDtoResponse.getAvailable());
+    }
+
+    @Test
     void itemRequestIdItemNull() {
         User user = new User(1L, "bebr", "abobovich");
         Request request = new Request(null, "text", user, LocalDateTime.now());
