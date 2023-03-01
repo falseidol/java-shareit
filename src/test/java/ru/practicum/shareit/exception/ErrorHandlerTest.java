@@ -8,16 +8,24 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ErrorHandlerTest {
     UserNotFoundException userNotFoundException = new UserNotFoundException("User not found");
     ObjectNotFoundException objectNotFoundException = new ObjectNotFoundException("Object not found");
-    ErrorResponse errorResponse;
+    BadRequestException badRequestException = new BadRequestException("BadRequest");
+    ErrorHandler errorHandler = new ErrorHandler();
 
     @Test
     void handleUserNotFoundException() {
-        String bebr = userNotFoundException.getMessage();
-        assertEquals(new ErrorResponse(bebr).getError(), ("User not found"));
+        ErrorResponse errorResponse = new ErrorResponse("User not found");
+        assertEquals(errorHandler.handleUserNotFoundException(userNotFoundException), errorResponse);
     }
 
     @Test
     void handleObjectNotFoundException() {
-        assertEquals(objectNotFoundException.getMessage(), ("Object not found"));
+        ErrorResponse errorResponse = new ErrorResponse("Object not found");
+        assertEquals(errorHandler.handleObjectNotFoundException(objectNotFoundException), errorResponse);
+    }
+
+    @Test
+    void handleBadRequestException() {
+        ErrorResponse errorResponse = new ErrorResponse("BadRequest");
+        assertEquals(errorHandler.handleBadRequestException(badRequestException), errorResponse);
     }
 }
