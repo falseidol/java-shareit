@@ -44,13 +44,13 @@ public class ItemServiceImpl implements ItemService {
     public ItemDto addItem(Long userId, ItemDto itemDto) {
         log.info("Добавление вещи");
         Item item = ItemMapper.fromDto(itemDto);
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
         if (itemDto.getRequestId() != null) {
             Request request = requestRepository.findById(itemDto.getRequestId())
                     .orElseThrow(() -> new ObjectNotFoundException("Реквест не найден"));
             item.setRequest(request);
         }
-        //TODO требуется ли возврат
         item.setOwner(user);
         itemRepository.save(item);
         return ItemMapper.toDto(item);

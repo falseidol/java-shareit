@@ -22,6 +22,6 @@ public class ItemDto {
     private String description;
     @NotNull(groups = {Create.class})
     private Boolean available;
-    private User owner; // TODO check useRdto
+    private User owner;
     private Long requestId;
 }

@@ -10,13 +10,13 @@ import java.util.Objects;
 /**
  * TODO Sprint add-item-requests.
  */
-@Entity
-@Table(name = "requests", schema = "public")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "requests", schema = "public")
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
