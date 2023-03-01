@@ -143,7 +143,7 @@ create table if not exists requests
 (
     4000
 ) not null,
-    requestor_id bigint not null
+    user_id bigint not null
     constraint requests_users_id_fk
     references users,
     created timestamp without time zone not null
