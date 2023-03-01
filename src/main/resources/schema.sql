@@ -26,6 +26,28 @@ create table if not exists users
     email
 )
     );
+create table if not exists requests
+(
+    id
+    bigint
+    generated
+    by
+    default as
+    identity
+    constraint
+    pk_request
+    primary
+    key,
+    description
+    varchar
+(
+    4000
+) not null,
+    user_id bigint not null
+    constraint requests_users_id_fk
+    references users,
+    created timestamp without time zone not null
+    );
 create table if not exists items
 (
     id
@@ -52,7 +74,9 @@ create table if not exists items
     constraint pk_item primary key
 (
     id
-)
+), request_id bigint
+    constraint items_requests_id_fk
+    references requests
     );
 create table if not exists bookings
 (
