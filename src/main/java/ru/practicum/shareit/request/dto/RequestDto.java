@@ -1,27 +1,29 @@
-package ru.practicum.shareit.item.dto;
+package ru.practicum.shareit.request.dto;
 
 import lombok.*;
 import ru.practicum.shareit.appservice.Create;
+import ru.practicum.shareit.item.dto.ItemDto;
 import ru.practicum.shareit.user.model.User;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+import java.util.List;
 
+/**
+ * TODO Sprint add-item-requests.
+ */
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-public class ItemDto {
+public class RequestDto {
     private Long id;
     @NotNull(groups = {Create.class})
     @NotBlank(groups = {Create.class})
-    private String name;
-    @NotBlank(groups = {Create.class})
-    @NotNull(groups = {Create.class})
     private String description;
-    @NotNull(groups = {Create.class})
-    private Boolean available;
-    private User owner;
-    private Long requestId;
+    private User user;
+    private LocalDateTime created;
+    private List<ItemDto> items;
 }
